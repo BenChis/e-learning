@@ -13,24 +13,38 @@
 
     <div class="flex flex-row justify-center flex-grow">
       <div
-          class="prose mr-4 p-8 bg-white rounded-md min-w-[20ch] flex flex-col"
+          class="prose mr-4 p-8 bg-white rounded-md min-w-[20ch] max-w-[30ch] flex flex-col"
       >
         <h3>Chapters</h3>
         <!-- All the lessons for the course listed here -->
+        <div class="space-y-1 mb-4 flex flex-col" v-for="chapter in chapters">
+          <h4>{{ chapter.title }}</h4>
+          <nuxt-link v-for="(lesson,index) in chapter.lessons" :key="lesson.slug"
+                     class="fex flex-row space-x-1 no-underline prose-sm font-normal"
+                     :to="lesson.path"
+                     :class="{
+               'text-blue-500': lesson.path === $route.fullPath, 'text-gray-600' : lesson.path !== $route.fullPath
+            }"
+          ></nuxt-link>
+        </div>
       </div>
 
-      <div class="prose p-12 bg-white bg-red-100 rounded-md w-[65ch]">
-       <NuxtPage/>
+      <div class="prose p-12 bg-white rounded-md w-[65ch]">
+        <NuxtPage/>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-export default {}
+<script setup>
+
+const {chapters} = useCourse()
+
 </script>
 
-<style scoped>
+<!--<style scoped>-->
+<!--.router-link-active {-->
+<!--  @apply text-blue-500-->
+<!--}-->
 
-
-</style>
+<!--</style>-->
